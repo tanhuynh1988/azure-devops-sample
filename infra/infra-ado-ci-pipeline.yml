@@ -2,11 +2,10 @@
 trigger:
   branches:
     include:
-    - e2e/temperature-events-milestone1
     - master
   paths:
     include:
-    - Infra/*
+    - infra/*
 
 pool:
   vmImage: ubuntu-latest
@@ -25,7 +24,7 @@ stages:
     - script: |
         python -m pip install --upgrade pip
         python -m pip install yamllint
-        yamllint Infra/*.yml -d "{extends: default, rules: {document-start: disable, line-length: disable, indentation: {spaces: 2, indent-sequences: false}}}"
+        yamllint infra/*.yml -d "{extends: default, rules: {document-start: disable, line-length: disable, indentation: {spaces: 2, indent-sequences: false}}}"
       displayName: 'Run yaml lint check'
   - template: infra-ado-pipeline-template.yml
     parameters:
