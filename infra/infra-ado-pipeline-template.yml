@@ -28,7 +28,7 @@ jobs:
 
         - script: |
             terraform fmt -check -recursive
-          workingDirectory: '$(System.DefaultWorkingDirectory)/Infra/terraform'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/infra/terraform'
           displayName: 'Terraform Lint'
         - script: |
               export ARM_SUBSCRIPTION_ID=$(tf-subscription-id)
@@ -39,10 +39,10 @@ jobs:
               terraform init -backend-config="storage_account_name=$(tf-storage-name)" -backend-config="container_name=terraform-state" -backend-config="access_key=$(tfstate-storage-key-dev)" -backend-config="key=terraform.tfstate"
               echo '#######Terraform Plan########'
               terraform plan -out="out.plan"
-          workingDirectory: '$(System.DefaultWorkingDirectory)/Infra/terraform/live/dev'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/infra/terraform/live/dev'
           displayName: 'Terraform Init && Terraform Plan'
         - script: |
             terraform apply out.plan
-          workingDirectory: '$(System.DefaultWorkingDirectory)/Infra/terraform/live/dev'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/infra/terraform/live/dev'
           displayName: 'Terraform Apply'
           condition: and(succeeded(), eq(${{ parameters.buildValidation }}, false))
